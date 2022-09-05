@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import glob
 
-path = "C:\\Users\\jhokororo\\Desktop\\Python Script\\ig caller\\"
+path = "path\\to current\\ working\ directory"
 
 
 all_files = glob.glob("*.csv")
@@ -24,28 +24,31 @@ for f in filenames:
 merged_df = pd.concat(all_df, ignore_index=True, sort=True)
 print(merged_df)   
 
-results = merged_df[["Rearrangement","ChrA", "PositionA","PositionB", "ChrB", "GeneID","file"]] #subsetting the only the columns interested and saving into a new variable called results
+#subsetting the only the columns interested and saving into a new variable called results
+results = merged_df[["Rearrangement","ChrA", "PositionA","PositionB", "ChrB", "GeneID","file"]]
 print(results)
 
-chr_8_14 = results[results["Rearrangement"] == "t(8;14)"] #subsetting only the t(8;14) interested
+#subsetting only the t(8;14) interested
 print(chr_8_14)
+chr_8_14 = results[results["Rearrangement"] == "t(8;14)"]
 
-
-final_data = chr_8_14.set_index("file") #setting the file column as our index
+#setting the file column as our index
+final_data = chr_8_14.set_index("file")
 final_data.style #viewing
 
-output_data= final_data.groupby("file") #splitting the dataframe according to the file index
+#splitting the dataframe according to the fileindex
+output_data= final_data.groupby("file") 
 print(output_data)
 
 
-MNH085 = output_data.get_group("C:\\Users\\jhokororo\\Desktop\\Python Script\\ig caller\\MNH085.csv")
-MNH081 =  output_data.get_group("C:\\Users\\jhokororo\\Desktop\\Python Script\\ig caller\\MNH081.csv")
-LACOR050 =  output_data.get_group("C:\\Users\\jhokororo\\Desktop\\Python Script\\ig caller\\LACOR050.csv")
+MN = output_data.get_group("filename1")
+MH =  output_data.get_group("filename2")
+LA =  output_data.get_group("filename3")
 
 #exporting the individuals files to excel files
-MNH085.to_excel(r'C:\Users\jhokororo\Desktop\Python Script\ig caller\Output\MNH085.xlsx')
-MNH081.to_excel(r'C:\Users\jhokororo\Desktop\Python Script\ig caller\Output\MNH081.xlsx')
-LACOR050.to_excel(r'C:\Users\jhokororo\Desktop\Python Script\ig caller\Output\LACOR050.xlsx')
+MN.to_excel(r'path to output folder\MN.csv')
+MH.to_excel(r"path to output folder\MH.csv")
+LA.to_excel(r"path to output folder\LA.csv")
 
 
 
